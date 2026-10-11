@@ -1,1 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Fishing Game</title>
 
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #7ddcff;
+      margin: 0;
+      padding: 30px;
+    }
+
+    #game {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+    }
+
+    button {
+      font-size: 20px;
+      padding: 15px 25px;
+      margin: 8px;
+      border: 0;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    #fishButton {
+      background: #4caf50;
+      color: white;
+    }
+
+    #rodButton {
+      background: #ff9800;
+      color: white;
+    }
+
+    #message {
+      font-size: 24px;
+      min-height: 40px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="game">
+    <h1>🎣 Fishing Game</h1>
+
+    <p>Level: <span id="level">1</span> / 10,000</p>
+    <p>🐟 Fish: <span id="fish">0</span></p>
+    <p>💰 Coins: <span id="coins">0</span></p>
+    <p>🎣 Rod: <span id="rod">Basic Rod</span></p>
+
+    <button id="fishButton" onclick="catchFish()">
+      🎣 Catch a Fish!
+    </button>
+
+    <button id="rodButton" onclick="upgradeRod()">
+      ⬆️ Upgrade Rod
+    </button>
+
+    <p id="message">Cast your line!</p>
+  </div>
+
+  <script>
+    let level = 1;
+    let fish = 0;
+    let coins = 0;
+    let rodPower = 1;
+
+    function catchFish() {
+      let caught = Math.floor(Math.random() * rodPower) + 1;
+
+      fish += caught;
+      coins += caught * 2;
+
+      if (fish >= level * 10 && level < 10000) {
+        level++;
+        document.getElementById("message").textContent =
+          "🎉 Level up! You reached level " + level + "!";
+      } else {
+        document.getElementById("message").textContent =
+          "🐟 You caught " + caught + " fish!";
+      }
+
+      updateScreen();
+    }
+
+    function upgradeRod() {
+      let cost = rodPower * 20;
+
+      if (coins >= cost) {
+        coins -= cost;
+        rodPower++;
+
+        document.getElementById("message").textContent =
+          "🎣 Your rod got stronger!";
+
+        updateScreen();
+      } else {
+        document.getElementById("message").textContent =
+          "💰 You need " + cost + " coins to upgrade!";
+      }
+    }
+
+    function updateScreen() {
+      document.getElementById("level").textContent = level;
+      document.getElementById("fish").textContent = fish;
+      document.getElementById("coins").textContent = coins;
+
+      document.getElementById("rod").textContent =
+        rodPower === 1
+          ? "Basic Rod"
+          : "Rod Level " + rodPower;
+    }
+  </script>
+
+</body>
+</html>
